@@ -1,0 +1,19 @@
+{
+  "name": "yetanotherhackernews-frontend",
+  "main": "n",
+  "authors": [
+    "github.com/PedroF20"
+  ],
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "angular": "1.6.3",
+    "angular-ui-router": "1.0.0-rc.1",
+    "angular-bootstrap": "^1.3.3",
+    "angular-loader": "~1.4.0",
+    "angular-mocks": "~1.4.0",
+    "angular-route": "~1.4.0",
+    "bootstrap": "3.2.0",
+    "html5-boilerplate": "~5.2.0"
+  }
+}
