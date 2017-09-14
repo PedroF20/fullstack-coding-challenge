@@ -1,8 +1,7 @@
 import time
 from hashlib import md5
 from datetime import datetime
-from flask import Flask, request, session, url_for, redirect, \
-     render_template, abort, g, flash, _app_ctx_stack
+from flask import Flask,render_template,jsonify,json,request
 
 
 app = Flask(__name__)
