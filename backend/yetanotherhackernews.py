@@ -1,6 +1,7 @@
 import time
 import threading
 import database
+import sched
 from hashlib import md5
 from datetime import datetime
 from flask import Flask,render_template,jsonify,json,request,Response
@@ -21,16 +22,13 @@ def get_top_items():
 	Returns: JSON containing the story's details
 
 	"""""""""""""""""""""""""""""
-	# We have to check for new data every 10 minutes (less for testing purposes)
-	# time here is in seconds
-	threading.Timer(20, get_top_items).start()
 
 	detailed_list = []
 
 	item_id_list = get_10_top_items()
 	database.save_top_items(item_id_list)
 
-	print item_id_list
+	print (item_id_list)
 
 	for x in item_id_list:
 		tmp = get_details(x)
@@ -58,8 +56,16 @@ def show_items():
 	return jsonify(final)
 
 
-get_top_items()
+# We have to check for new data every 10 minutes (less for testing purposes)
+# time here is in seconds
+s = sched.scheduler(time.time, time.sleep)
+def updater():
+	get_top_items()
+	s.enter(20, 1, updater)
+
 
 
 if __name__ == '__main__':
-	app.run(debug=True, host='0.0.0.0')
+	s.enter(0, 1, updater)
+	s.run(blocking=False)
+	#app.run(debug=True, host='0.0.0.0')

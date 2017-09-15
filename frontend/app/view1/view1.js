@@ -9,7 +9,7 @@ angular.module('myApp.view1', ['ngRoute'])
   });
 }])
 
-.controller('View1Ctrl', ['$scope', '$rootScope', '$http', '$location', function($scope, $rootScope, $http, $location) {
+.controller('View1Ctrl', ['$scope', '$rootScope', '$http', '$location', '$interval', function($scope, $rootScope, $http, $location) {
 
 		$scope.posts = null;
 
@@ -26,5 +26,9 @@ angular.module('myApp.view1', ['ngRoute'])
 		}
 
 		$scope.showlist();
+
+		setInterval(function(){
+		  $scope.showlist();
+		}, 5000)
 
 }]);
