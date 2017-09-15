@@ -1,12 +1,44 @@
 import time
+import threading
+import database
 from hashlib import md5
 from datetime import datetime
 from flask import Flask,render_template,jsonify,json,request,Response
-from hackernews_api import get_10_top_stories, get_details
+from hackernews_api import get_10_top_items, get_details
 
 
 app = Flask(__name__)
 app.config.from_object(__name__)
+
+
+def get_top_items():
+
+	""""""""""""""""""""""""""""" 
+	Gets the current top items and saves them.
+	Returns the items as JSON objects
+
+	Args: none
+	Returns: JSON containing the story's details
+
+	"""""""""""""""""""""""""""""
+	# We have to check for new data every 10 minutes (less for testing purposes)
+	# time here is in seconds
+	threading.Timer(20, get_top_items).start()
+
+	detailed_list = []
+
+	item_id_list = get_10_top_items()
+	database.save_top_items(item_id_list)
+
+	print item_id_list
+
+	for x in item_id_list:
+		tmp = get_details(x)
+		detailed_list.append(tmp)
+
+	return detailed_list
+
+
 
 @app.after_request
 def after_request(response):
@@ -16,14 +48,17 @@ def after_request(response):
   return response
 
 @app.route('/')
-def show_stories():
-	
-	final = []
-	top_10 = get_10_top_stories()
+def show_items():
 
-	for story_id in top_10:
-		final.append(get_details(story_id))
+	final = []
+	tmp = database.saved_top_items()
+	
+	for i in tmp:
+		final.append(get_details(i))
 	return jsonify(final)
+
+
+get_top_items()
 
 
 if __name__ == '__main__':

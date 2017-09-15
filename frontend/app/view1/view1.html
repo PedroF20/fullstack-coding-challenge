@@ -5,36 +5,29 @@
             <h3 class="text-muted">Yet Another Hackernews</h3>
         </div>
 
-        <div class="bs-example" data-example-id="panel-without-body-with-table">
+        <div class="bs-example" data-example-id="panel-without-body-with-table" ng-show="posts">
             <div class="panel panel-default">
                 <div class="panel-heading">Top 10 news</div>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>XYZ</th>
-                            <th>XYZ</th>
-                            <th>XYZ</th>
-                            <th>XYZ</th>
-                            <th>XYZ</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>URL</th>
+                            <th>Translation 1</th>
+                            <th>Translation 2</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="machine in machines track by $index">
-                            <th scope="row">{{'{{$index+1}}'}}</th>
-                            <td>{{ '{{machine.device}}' }}</td>
-                            <td>{{ '{{machine.ip}}' }}</td>
-                            <td> {{'{{machine.username}}'}}</td>
-                            <td>{{'{{machine.password}}'}}</td>
-                            <td>{{'{{machine.port}}'}}</td>
-                            <td></td>
+                        <tr ng-repeat="post in posts track by $index">
+                            <th scope="row">{{$index+1}}</th>
+                            <td><a href="{{post.url}}" target="_blank">{{post.title}}</a></td>
+                            <td>{{post.by}}</td>
+                            <td>{{post.url}}</td> 
                             <td></td>
                             <td></td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>
