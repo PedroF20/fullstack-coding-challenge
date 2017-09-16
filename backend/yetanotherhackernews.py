@@ -1,5 +1,8 @@
 import time
 import threading
+import atexit
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.interval import IntervalTrigger
 import database
 import sched
 from hashlib import md5
@@ -26,9 +29,8 @@ def get_top_items():
 	detailed_list = []
 
 	item_id_list = get_10_top_items()
-	database.save_top_items(item_id_list)
-
 	print (item_id_list)
+	database.save_top_items(item_id_list)
 
 	for x in item_id_list:
 		tmp = get_details(x)
@@ -58,14 +60,20 @@ def show_items():
 
 # We have to check for new data every 10 minutes (less for testing purposes)
 # time here is in seconds
-s = sched.scheduler(time.time, time.sleep)
 def updater():
 	get_top_items()
-	s.enter(20, 1, updater)
 
+scheduler = BackgroundScheduler()
+scheduler.start()
+scheduler.add_job(
+    func=updater,
+    trigger=IntervalTrigger(seconds=10),
+    id='item_update',
+    name='Get the 10 top items, save them on the database and finally return them',
+    replace_existing=True)
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
 
 
 if __name__ == '__main__':
-	s.enter(0, 1, updater)
-	s.run(blocking=False)
-	#app.run(debug=True, host='0.0.0.0')
+	app.run(debug=True, use_reloader=False, host='0.0.0.0')
