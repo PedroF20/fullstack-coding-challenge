@@ -92,16 +92,3 @@ def update_item(item_id):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-

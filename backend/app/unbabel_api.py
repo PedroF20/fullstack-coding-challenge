@@ -19,10 +19,10 @@ def post_translation(text, lang):
 
 	data = {"text": text, "target_language": lang}
 	p = requests.post(ENDPOINT+'mt_translation/', headers = HEADERS, data = json.dumps(data))
-	print (dir(p))
-	print (p.url)
-	print (p.headers)
-	print (p.reason)
+	#print (dir(p))
+	#print (p.url)
+	#print (p.headers)
+	#print (p.reason)
 	if p and (p.status_code == 201): # to check that the request is successful, using requests
 		return p.json()
 	else:

@@ -42,6 +42,19 @@ class AppTestCase(unittest.TestCase):
 		self.assertTrue(d['status'])
 
     # testing the database
+    # improvement: test the database using a copy of it and some fake data / more coverage
+	def test_saved_top_items(self):
+		saved_items = database.saved_top_items()
+		self.assertIs(isinstance(saved_items, list), True)
+		self.assertEqual(len(saved_items), 10)
+		for item in saved_items:
+			self.assertIs(isinstance(item, int), True)
+
+    # testing the database
+	def test_save_top_items(self):
+		items = database.saved_top_items()
+		database.save_top_items(items)
+		self.assertEqual(database.db.top_items.count(), 1)
 
 
 if __name__ == '__main__':
