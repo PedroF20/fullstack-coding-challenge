@@ -15,7 +15,6 @@ HEADERS = {
 
 
 
-
 def post_translation(text, lang):
 
 	data = {"text": text, "target_language": lang}

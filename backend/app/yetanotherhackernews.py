@@ -3,10 +3,10 @@ import threading
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
-import database
 import sched
 from hashlib import md5
 from datetime import datetime
+import database
 from flask import Flask,render_template,jsonify,json,request,Response
 from hackernews_api import get_10_top_items, get_details
 
